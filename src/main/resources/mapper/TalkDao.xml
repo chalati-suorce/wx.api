@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.system.dao.TalkDao">
+
+    <resultMap type="com.demo.system.entity.Talk" id="TalkMap">
+        <result property="id" column="id" jdbcType="INTEGER" />
+        <result property="uid" column="uid" jdbcType="INTEGER" />
+        <result property="did" column="did" jdbcType="INTEGER" />
+        <result property="content" column="content" jdbcType="VARCHAR" />
+        <result property="time" column="time" jdbcType="VARCHAR" />
+        <result property="code" column="code" jdbcType="VARCHAR" />
+        <result property="reply" column="reply" jdbcType="VARCHAR" />
+        <result property="status" column="status" jdbcType="VARCHAR" />
+        <result property="type" column="type" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultType="java.util.Map">
+        select  talk.*
+        from hospital.talk
+        where id = #{id}
+    </select>
+
+    <!--查询对话框列表-->
+    <select id="queryBox" resultType="java.util.Map">
+        SELECT talk.*,user.name as uname,user.img as uimg,doctor.name as dname,doctor.img as dimg
+        from hospital.talk
+        left join user on talk.uid = user.id
+        left join doctor on talk.did = doctor.id
+        <where>
+            <if test="id != null">
+                and talk.id = #{id}
+            </if>
+            <if test="uid != null">
+                and talk.uid = #{uid}
+            </if>
+            <if test="did != null">
+                and talk.did = #{did}
+            </if>
+            <if test="content != null and content != ''">
+                and talk.content = #{content}
+            </if>
+            <if test="time != null and time != ''">
+                and talk.time = #{time}
+            </if>
+            <if test="code != null and code != ''">
+                and talk.code = #{code}
+            </if>
+            <if test="reply != null and reply != ''">
+                and talk.reply = #{reply}
+            </if>
+            <if test="status != null and status != ''">
+                and talk.status = #{status}
+            </if>
+            <if test="type != null and type != ''">
+                and talk.type = #{type}
+            </if>
+        </where>
+        group by talk.uid,talk.did
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultType="java.util.Map">
+        SELECT talk.*,user.name as uname,user.img as uimg,user.age,user.idcard,user.sex,user.tel as utel,doctor.name as dname,doctor.img as dimg
+        FROM talk
+        left join user on talk.uid = user.id
+       left join doctor on talk.did = doctor.id
+        <where>
+            <if test="id != null">
+                and talk.id = #{id}
+            </if>
+            <if test="uid != null">
+                and talk.uid = #{uid}
+            </if>
+            <if test="did != null">
+                and talk.did = #{did}
+            </if>
+            <if test="content != null and content != ''">
+                and talk.content = #{content}
+            </if>
+            <if test="time != null and time != ''">
+                and talk.time = #{time}
+            </if>
+            <if test="code != null and code != ''">
+                and talk.code = #{code}
+            </if>
+            <if test="reply != null and reply != ''">
+                and talk.reply = #{reply}
+            </if>
+            <if test="status != null and status != ''">
+                and talk.status = #{status}
+            </if>
+            <if test="type != null and type != ''">
+                and talk.type = #{type}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into hospital.talk(uid, did, content, time, code, reply, status, type)
+        values (#{uid}, #{did}, #{content}, #{time}, #{code}, #{reply}, #{status}, #{type})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update hospital.talk
+        <set>
+            <if test="uid != null and uid != ''">
+                uid = #{uid},
+            </if>
+            <if test="did != null and did != ''">
+                did = #{did},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="time != null and time != ''">
+                time = #{time},
+            </if>
+            <if test="code != null and code != ''">
+                code = #{code},
+            </if>
+            <if test="reply != null and reply != ''">
+                reply = #{reply},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过code修改数据-->
+    <update id="updateByCode">
+        update hospital.talk
+        <set>
+            <if test="uid != null and uid != ''">
+                uid = #{uid},
+            </if>
+            <if test="did != null and did != ''">
+                did = #{did},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="time != null and time != ''">
+                time = #{time},
+            </if>
+            <if test="code != null and code != ''">
+                code = #{code},
+            </if>
+            <if test="reply != null and reply != ''">
+                reply = #{reply},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+        </set>
+        where code = #{code}
+    </update>
+
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from hospital.talk where code = #{code}
+    </delete>
+
+</mapper>

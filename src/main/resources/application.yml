@@ -1,0 +1,25 @@
+server:
+  port: 8089
+spring:
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
+  # 我的测试环境mysql是5.7，你的是8.0，所以配置你要改。两个版本是有区别的
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/hospital?characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT&allowPublicKeyRetrieval=true
+    username: root
+    password: 1841220662
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Dao.xml
+  typeAliasesPackage: com.example.demo.entity
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
